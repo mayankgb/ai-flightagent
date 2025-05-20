@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Flights" ADD COLUMN     "price" INTEGER NOT NULL DEFAULT 6900;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "inrBalance" INTEGER NOT NULL DEFAULT 10000000;

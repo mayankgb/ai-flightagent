@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(uuid())
+  name      String
+  BookSeats BookSeats[]
+  inrBalance   Int         @default(10000000)
+}
+
+model Flights {
+  id             String      @id @default(uuid())
+  name           String
+  from           State
+  to             State
+  time           DateTime  @default(now())
+  BookSeats      BookSeats[]
+  availableSeats Int         @default(10)
+  price          Int          @default(6900)
+}
+
+model BookSeats {
+  id       String       @id @default(uuid())
+  userId   String
+  user     User         @relation(fields: [userId], references: [id])
+  flightId String
+  flights  Flights      @relation(fields: [flightId], references: [id])
+  status   BookingStaus @default(CONFIRMED)
+
+}
+
+enum State {
+  AJMER
+  GWALIOR
+  DELHI
+  CHANDIGARH
+}
+
+enum BookingStaus {
+  WAITING
+  CONFIRMED
+  CANCELLED
+}
